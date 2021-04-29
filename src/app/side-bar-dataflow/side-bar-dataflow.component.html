@@ -1,0 +1,6 @@
+<div *ngFor="let dimension of dimensions; let i = index">
+  <select multiple class="select-sidebar">
+    <option *ngFor="let value of dimension.values" value="{{value.id}}">{{value.name}}</option>
+  </select>
+</div>
+

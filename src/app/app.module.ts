@@ -10,6 +10,9 @@ import { MyDoughnutChartComponent } from './my-doughnut-chart/my-doughnut-chart.
 import { MyRadarChartComponent } from './my-radar-chart/my-radar-chart.component';
 import { MyPieChartComponent } from './my-pie-chart/my-pie-chart.component';
 import {HttpClientModule} from '@angular/common/http';
+import { SideBarComponent } from './side-bar/side-bar.component';
+import { FilterService } from './filter.service';
+import { SideBarDataflowComponent } from './side-bar-dataflow/side-bar-dataflow.component';
 
 
 @NgModule({
@@ -18,7 +21,9 @@ import {HttpClientModule} from '@angular/common/http';
     MyBarChartComponent,
     MyDoughnutChartComponent,
     MyRadarChartComponent,
-    MyPieChartComponent
+    MyPieChartComponent,
+    SideBarComponent,
+    SideBarDataflowComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +31,7 @@ import {HttpClientModule} from '@angular/common/http';
     ChartsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [FilterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

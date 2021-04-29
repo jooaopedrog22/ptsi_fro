@@ -1,0 +1,12 @@
+<nav>
+  <div>
+    <select class="select-sidebar" (change)="selectChangeHandler($event)">
+      <option value="null" selected>Select a dataflow</option>
+      <option *ngFor="let datastructure of datastructures"  value="{{datastructure[0]}}" [attr.agency_id]="datastructure[2]">{{datastructure[0]}}</option>
+    </select>
+  </div>
+  
+
+  <app-side-bar-dataflow *ngIf="changed"></app-side-bar-dataflow>
+</nav>
+

@@ -22,15 +22,12 @@ export class MyBarChartComponent implements OnInit {
     {data: [], label: "Dimension A"}
   ];
   
+  public message = "Antigo Comp";
+  public MessageS = "last";
 
 
   constructor(private http:HttpClient) { }
 
   ngOnInit() {
-    let resp = this.http.get("https://backend-ptsi.herokuapp.com/UNICEF/Df/CDCOV/CD2030");
-    resp.subscribe((data) => {
-
-      console.log(data);
-    });    
   }
 }
