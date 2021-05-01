@@ -9,10 +9,14 @@ import { MyBarChartComponent } from './my-bar-chart/my-bar-chart.component';
 import { MyDoughnutChartComponent } from './my-doughnut-chart/my-doughnut-chart.component';
 import { MyRadarChartComponent } from './my-radar-chart/my-radar-chart.component';
 import { MyPieChartComponent } from './my-pie-chart/my-pie-chart.component';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { FilterService } from './filter.service';
 import { SideBarDataflowComponent } from './side-bar-dataflow/side-bar-dataflow.component';
+import {MatSelectModule} from '@angular/material/select';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+
 
 
 @NgModule({
@@ -30,6 +34,10 @@ import { SideBarDataflowComponent } from './side-bar-dataflow/side-bar-dataflow.
     AppRoutingModule,
     ChartsModule,
     HttpClientModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [FilterService],
   bootstrap: [AppComponent]
