@@ -2,7 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FilterService } from '../filter.service';
-import {environment} from './../../environments/environment'
+import {environment} from './../../environments/environment';
+import {FormControl} from '@angular/forms';
+
+
+
 
 @Component({
   selector: 'app-side-bar-dataflow',
@@ -17,6 +21,9 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
   dimensions;
   dimensionsKeyName = [];
   datasets;
+
+  dimensionsControl = new FormControl();
+  selectList = [];
 
 
 
@@ -34,21 +41,26 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
       this.Dataflow = data;
       this.dimensions = this.Dataflow["Dimensions"];
       this.datasets = this.Dataflow["Datasets"];
-      let dimensionsKeyNamePlaceHolder = []
+      let dimensionsKeyNamePlaceHolder = [];
       for(let i = 0; i < this.dimensions.length; i++){
         dimensionsKeyNamePlaceHolder.push(this.dimensions[i].name);
       }
       this.dimensionsKeyName = dimensionsKeyNamePlaceHolder;
       console.log(this.Dataflow);
       console.log(this.dimensions);
+      let dimensionsListValPlaceHolder = [];
+      for(let i = 0; i < this.dimensions.length; i++){
+        dimensionsListValPlaceHolder.push(this.dimensions[i].values);
+      }
+      this.selectList = dimensionsListValPlaceHolder;
+      console.log(this.selectList);
       })
     } 
   }
 
-
-
-  ToggleButton(event: any){
-    let button = event.target;
+  updateSelect(){
+    console.log("Deu");
+    console.log(this.dimensionsControl);
   }
 
   ngOnInit() {
