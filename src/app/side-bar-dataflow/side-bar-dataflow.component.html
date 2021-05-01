@@ -4,11 +4,23 @@
   </select>
 </div> -->
 
-
+<!-- 
 <mat-form-field *ngFor="let dimension of selectList; let i = index" appearance="fill">
   <mat-label>{{dimensionsKeyName[i]}}</mat-label>
   <mat-select (ngModelChange)="updateSelect()" [formControl]="dimensionsControl" multiple>
     <mat-option *ngFor="let dimval of dimension" [value]="dimval.id">{{dimval.name}}</mat-option>
   </mat-select>
 </mat-form-field>
+ -->
 
+<form [formGroup]="SelectFormGroup">
+  
+  <mat-form-field *ngFor="let dim of selectList; let i = index" appearance="fill">
+    <mat-label>{{dimensionsKeyName[i]}}</mat-label>
+    <mat-select (ngModelChange)="updateSelect($event)" formControlName="DimArray_{{i}}" multiple>
+      <mat-option *ngFor="let dimval of dim" [value]="dimval.id">{{dimval.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+</form>
