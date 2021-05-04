@@ -1,18 +1,3 @@
-<!-- <div *ngFor="let dimension of dimensions; let i = index">
-  <select (change)="updateSelect($event)" id="dimension_{{i}}" multiple class="select-sidebar">
-    <option *ngFor="let value of dimension.values" value="{{value.id}}">{{value.name}}</option>
-  </select>
-</div> -->
-
-<!-- 
-<mat-form-field *ngFor="let dimension of selectList; let i = index" appearance="fill">
-  <mat-label>{{dimensionsKeyName[i]}}</mat-label>
-  <mat-select (ngModelChange)="updateSelect()" [formControl]="dimensionsControl" multiple>
-    <mat-option *ngFor="let dimval of dimension" [value]="dimval.id">{{dimval.name}}</mat-option>
-  </mat-select>
-</mat-form-field>
- -->
-
 <form [formGroup]="SelectFormGroup">
   
   <mat-form-field *ngFor="let dim of selectList; let i = index" appearance="fill">
