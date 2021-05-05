@@ -19,9 +19,11 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
   dimensions;
   dimensionsKeyName = [];
   datasets;
+  DisabledVal = false;
 
 
   selectList = [];
+  selectListDisable = [];
   SelectFormGroup = new FormGroup({})
 
 
@@ -63,16 +65,23 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
     for(var i = 0; i < DimArray.length; i++){
       this.SelectFormGroup.addControl(`DimArray_${i}`, new FormControl([]));
     }
+    for(var i = 0; i < this.selectList.length; i++){
+      this.selectListDisable[i] = [];
+      for(var k = 0; k < this.selectList[i].length; k++){
+        this.selectListDisable[i][k] = {
+          "id" : this.selectList[i][k].id,
+          "DisabledVal": false
+        }
+      }
+    }
     console.log(this.SelectFormGroup);
   }
 
   updateSelect(event: any){
-    console.log(this.SelectFormGroup);
     this.filterMet();
   }
 
   filterMet(){
-    console.log(this.dimensions);
     var ArraySkeleton = [];
     for(let i = 0; i < this.dimensions.length; i++){
       let newArray = [];
@@ -88,9 +97,6 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
       }
       ArraySkeleton.push(newArray); //Id of selected values
     }
-
-    console.log(ArraySkeleton); 
-
     this.sortDim(ArraySkeleton);
   }
 
@@ -105,8 +111,8 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
       }
       Cont += 1;
     }
+
     for(let ArrayVal of ArraySkeleton){
-      
       if(ArrayVal.length !> 0){
         for(let obs in this.datasets){
           let parsedVal = obs.split(":");
@@ -129,11 +135,11 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
     for(var k = 0; k < newFilteredArray.length; k++){
       var PlaceHolderFilter = [];
       for(var j = 0; j < newFilteredArray.length; j++){
-        console.log("J : " + j + "    K: " + k);
-        console.log(newFilteredArray[j]);
+        //console.log("J : " + j + "    K: " + k);
+        //console.log(newFilteredArray[j]);
         if(k != j){
           if(newFilteredArray[j][j].includes("Filter")){
-            console.log("Entrou com nunhum filter")
+            //console.log("Entrou com nunhum filter")
             if(PlaceHolderFilter.length == 0){
               PlaceHolderFilter = newFilteredArray[j][k];
             }else{
@@ -145,6 +151,28 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
       FinalArray[k] = PlaceHolderFilter;
     }
     console.log(FinalArray);
+    for(let i = 0; i < FinalArray.length; i++){
+      if(FinalArray[i].length == 0){
+        for(let j = 0; j < this.selectListDisable[i].length;j++){
+          this.selectListDisable[i][j].DisabledVal = false;
+        }
+      }
+      if(FinalArray[i].length > 0){
+        for(let k = 0; k < this.selectListDisable[i].length; k++){
+          if(FinalArray[i].some(elem => elem == k)){
+            this.selectListDisable[i][k].DisabledVal = false;
+          }else{
+            if(this.SelectFormGroup.controls[`DimArray_${i}`].value.some(elem => elem == this.selectListDisable[i][k].id)){
+              let NewFormVal = this.SelectFormGroup.controls[`DimArray_${i}`].value.filter(val => val !== this.selectListDisable[i][k].id)
+              this.SelectFormGroup.controls[`DimArray_${i}`].setValue(NewFormVal,{emitViewToModelChange: false, emitModelToViewChange: true});
+            }
+            this.selectListDisable[i][k].DisabledVal = true;
+            
+          }
+        }
+      }
+    }
+    console.log(this.SelectFormGroup);
   }
 
   ngOnDestroy(){

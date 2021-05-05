@@ -30,7 +30,7 @@ export class SideBarComponent implements OnInit {
       "datastructure_agency" : datastructure_agency
     }
     this._filter.setDatastructure(this.DS);
-    this._filter.changeMessage(this.DS); 
+    this._filter.changeMessage(this.DS);
   }
 
   ngOnInit() {
