@@ -1,12 +1,9 @@
 <form [formGroup]="SelectFormGroup">
-  
   <mat-form-field *ngFor="let dim of selectList; let i = index" appearance="fill">
     <mat-label>{{dimensionsKeyName[i]}}</mat-label>
     <mat-select (ngModelChange)="updateSelect($event)" formControlName="DimArray_{{i}}" multiple>
       <mat-option *ngFor="let dimval of dim; let k = index" id="dim_{{i}}:index_{{k}}" [value]="dimval.id" [disabled]="selectListDisable[i][k].DisabledVal">{{dimval.name}}</mat-option>
     </mat-select>
   </mat-form-field>
-
-  
-
 </form>
+<app-side-button-filter></app-side-button-filter>

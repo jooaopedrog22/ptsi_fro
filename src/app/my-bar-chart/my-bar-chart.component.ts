@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { GraphDataService } from '../graph-data.service';
 
 
 @Component({
@@ -9,6 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyBarChartComponent implements OnInit {
 
+  //(Input) Dataflow that is holding all data
+  public Dataflow;
+
+  //Chart variables
   public barChartOptions = {
     scaleShowVerticalLines: false,
     responsive: true
@@ -20,13 +24,24 @@ export class MyBarChartComponent implements OnInit {
 
   public barChartData = [
     {data: [], label: "Dimension A"}
-  ];
-  
-  public message = "Antigo Comp";
-  public MessageS = "last";
+  ];  
 
+  constructor(private _graph_data:GraphDataService) {
+    this._graph_data.messageChanges$.subscribe((msg: object)=>{
+      this.Dataflow = msg;
+      this.InitDataflow()
+    })
+  }
 
-  constructor(private http:HttpClient) { }
+  InitDataflow(){
+    if(this.Dataflow !== undefined){
+      console.log("Down is the dataflow in bar-chart");
+      console.log(this.Dataflow);
+    }else{
+      console.log("Dataflow in bar-chart is undefined")
+    }
+  }
+
 
   ngOnInit() {
   }

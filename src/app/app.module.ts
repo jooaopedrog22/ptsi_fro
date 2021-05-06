@@ -14,8 +14,10 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 import { FilterService } from './filter.service';
 import { SideBarDataflowComponent } from './side-bar-dataflow/side-bar-dataflow.component';
 import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule} from '@angular/material/button';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SideButtonFilterComponent } from './side-button-filter/side-button-filter.component'; 
 
 
 
@@ -27,7 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MyRadarChartComponent,
     MyPieChartComponent,
     SideBarComponent,
-    SideBarDataflowComponent
+    SideBarDataflowComponent,
+    SideButtonFilterComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +38,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ChartsModule,
     HttpClientModule,
     MatSelectModule,
+    MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule

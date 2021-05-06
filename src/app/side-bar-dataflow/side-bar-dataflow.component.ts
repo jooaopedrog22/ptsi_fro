@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FilterService } from '../filter.service';
+import {FilteredDataService} from '../filtered-data.service';
 import {environment} from './../../environments/environment';
 import {FormControl, FormGroup} from '@angular/forms';
 
@@ -26,8 +27,11 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
   selectListDisable = [];
   SelectFormGroup = new FormGroup({})
 
+  StringFilter:string = "";
+  StringFilterURL:string ="";
 
-  constructor(private _filter:FilterService, private http:HttpClient) { 
+
+  constructor(private _filter:FilterService, private http:HttpClient, private _filtered_data:FilteredDataService) { 
     this.FilterSubscription = this._filter.messageChanges$.subscribe((msg: object)=>{
       this.Datastructure = msg;
       this.getDataflow();
@@ -49,12 +53,9 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
         let dimensionsKeyNamePlaceHolder = [];  //Substitute with the actual one
         for(let i = 0; i < this.dimensions.length; i++){ dimensionsKeyNamePlaceHolder.push(this.dimensions[i].name) }
         this.dimensionsKeyName = dimensionsKeyNamePlaceHolder;
-        console.log(this.Dataflow);
-        console.log(this.dimensions);
         let dimensionsListValPlaceHolder = [];  //Substitute with the actual one
         for(let i = 0; i < this.dimensions.length; i++){ dimensionsListValPlaceHolder.push(this.dimensions[i].values) }
         this.selectList = dimensionsListValPlaceHolder;
-        console.log(this.selectList);
         this.FormInit(this.dimensionsKeyName);
       })
     } 
@@ -74,7 +75,6 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
         }
       }
     }
-    console.log(this.SelectFormGroup);
   }
 
   updateSelect(event: any){
@@ -130,16 +130,13 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
     ArrayValContador  += 1;
     }
 
-    console.log(newFilteredArray);
+
     var FinalArray = [];
     for(var k = 0; k < newFilteredArray.length; k++){
       var PlaceHolderFilter = [];
       for(var j = 0; j < newFilteredArray.length; j++){
-        //console.log("J : " + j + "    K: " + k);
-        //console.log(newFilteredArray[j]);
         if(k != j){
           if(newFilteredArray[j][j].includes("Filter")){
-            //console.log("Entrou com nunhum filter")
             if(PlaceHolderFilter.length == 0){
               PlaceHolderFilter = newFilteredArray[j][k];
             }else{
@@ -150,7 +147,7 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
       }
       FinalArray[k] = PlaceHolderFilter;
     }
-    console.log(FinalArray);
+
     for(let i = 0; i < FinalArray.length; i++){
       if(FinalArray[i].length == 0){
         for(let j = 0; j < this.selectListDisable[i].length;j++){
@@ -173,6 +170,26 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
       }
     }
     console.log(this.SelectFormGroup);
+    this.BuildFilterString();
+  }
+
+
+  BuildFilterString(){
+    var MainArray = [];
+    for(let dim in this.SelectFormGroup.controls){
+      let newString:string = this.SelectFormGroup.controls[dim].value.join("+");
+      MainArray.push(newString);
+    }
+    this.StringFilter  =  MainArray.join(".");
+    console.log(this.StringFilter);
+    this.StringFilterURL = `/UNICEF/v2/Dataflow/${this.Datastructure.datastructure_id}/${this.Datastructure.datastructure_agency}/filter/${this.StringFilter}`
+    console.log(this.StringFilterURL);
+    this.Data_to_Service(this.StringFilterURL);
+  }
+
+  Data_to_Service(UrlString){
+    this._filtered_data.changeMessage(UrlString);
+    this._filtered_data.setDataUrl(UrlString);
   }
 
   ngOnDestroy(){
