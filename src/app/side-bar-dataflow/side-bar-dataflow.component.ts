@@ -182,7 +182,7 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
     }
     this.StringFilter  =  MainArray.join(".");
     console.log(this.StringFilter);
-    this.StringFilterURL = `/UNICEF/v2/Dataflow/${this.Datastructure.datastructure_id}/${this.Datastructure.datastructure_agency}/filter/${this.StringFilter}`
+    this.StringFilterURL = `/UNICEF/v2/Dataflow/${this.Datastructure.datastructure_id}/${this.Datastructure.datastructure_agency}/filtercsv/${this.StringFilter}`
     console.log(this.StringFilterURL);
     this.Data_to_Service(this.StringFilterURL);
   }
