@@ -19,6 +19,7 @@ export class MyBarChartComponent implements OnInit {
   constructor(private _graph_data:GraphDataService) {
     this._graph_data.messageChanges$.subscribe((msg: object)=>{
       this.Dataflow = msg['data'];
+      console.log(this.Dataflow)
       if(this.chart !== undefined){
         this.chart.destroy()
       }
@@ -89,5 +90,6 @@ export class MyBarChartComponent implements OnInit {
 
 
   ngOnInit() {
+
   }
 }
