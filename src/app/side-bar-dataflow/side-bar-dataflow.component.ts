@@ -100,54 +100,13 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
     this.sortDim(ArraySkeleton);
   }
 
-  sortDim(ArraySkeleton){
-    let ArrayValContador = 0;
-    let newFilteredArray = [];
-    let Cont = 0;
-    for(let NoVariable of ArraySkeleton){
-      newFilteredArray.push([]);
-      for(let NoVariable2 of ArraySkeleton){
-        newFilteredArray[Cont].push([]);
-      }
-      Cont += 1;
-    }
+  async sortDim(ArraySkeleton){
+    let FinalArray
+    FinalArray = await this.FilterIntersection(ArraySkeleton)
+    //console.log("Awaited Array:")
+    //console.log(FinalArray)
 
-    for(let ArrayVal of ArraySkeleton){
-      if(ArrayVal.length !> 0){
-        for(let obs in this.datasets){
-          let parsedVal = obs.split(":");
-          if(ArrayVal.some(Val => Val == parsedVal[ArrayValContador])){
-            for(var w = 0; w < ArraySkeleton.length; w++){
-              if(w != ArrayValContador && !(newFilteredArray[ArrayValContador][w].includes(parsedVal[w]))){
-                  newFilteredArray[ArrayValContador][w].push(parsedVal[w]);
-                  newFilteredArray[ArrayValContador][ArrayValContador] = ["Filter"];
-              }
-            }
-          }
-        }
-      }
-
-    ArrayValContador  += 1;
-    }
-
-
-    var FinalArray = [];
-    for(var k = 0; k < newFilteredArray.length; k++){
-      var PlaceHolderFilter = [];
-      for(var j = 0; j < newFilteredArray.length; j++){
-        if(k != j){
-          if(newFilteredArray[j][j].includes("Filter")){
-            if(PlaceHolderFilter.length == 0){
-              PlaceHolderFilter = newFilteredArray[j][k];
-            }else{
-              PlaceHolderFilter = PlaceHolderFilter.filter(value => newFilteredArray[j][k].includes(value))
-            }
-          }
-        }
-      }
-      FinalArray[k] = PlaceHolderFilter;
-    }
-
+    //Disable
     for(let i = 0; i < FinalArray.length; i++){
       if(FinalArray[i].length == 0){
         for(let j = 0; j < this.selectListDisable[i].length;j++){
@@ -169,7 +128,6 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
         }
       }
     }
-    console.log(this.SelectFormGroup);
     this.BuildFilterString();
   }
 
@@ -194,5 +152,35 @@ export class SideBarDataflowComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.FilterSubscription.unsubscribe();
+  }
+
+  FilterIntersection(selectedIds_Array){
+    return new Promise(resolve=>{
+      
+
+      var FinalArray = [];
+      for(let x = 0; x < selectedIds_Array.length; x++){
+        FinalArray[x] = [];
+      }
+
+      for(let obs in this.datasets){
+        let name_split = obs.split(":");
+        for(let i = 0; i < name_split.length; i++){
+          var DimsValidated = true;
+          for(let k = 0; k < name_split.length; k++){
+            if( i !== k && selectedIds_Array[k].length>0){
+              if(!(selectedIds_Array[k].some(elem => elem == name_split[k]))){
+                DimsValidated = false;
+              }
+            }
+          }
+          if(DimsValidated && !(FinalArray[i].some(val => val == name_split[i]))){
+            FinalArray[i].push(name_split[i]);
+          }
+        }
+      }
+
+      resolve(FinalArray); //Output da promise
+    })
   }
 }
