@@ -7,6 +7,7 @@ import {Subject} from "rxjs";
 export class FilteredDataService {
 
   public FilteredDataUrl;
+  public Dimensions;
 
   private messageSource = new Subject<object>();
   messageChanges$ = this.messageSource.asObservable();
@@ -19,5 +20,13 @@ export class FilteredDataService {
 
   setDataUrl(Url){
     this.FilteredDataUrl = Url;
+  }
+
+  setDimensions(Dimensions_Data){
+    this.Dimensions = Dimensions_Data;
+  }
+
+  getDimensions(){
+    return this.Dimensions;
   }
 }

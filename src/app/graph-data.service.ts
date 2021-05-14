@@ -8,6 +8,7 @@ export class GraphDataService {
 
 
   public Dataflow;
+  public Dimensions;
 
   private messageSource = new Subject<object>();
   messageChanges$ = this.messageSource.asObservable();
@@ -22,5 +23,18 @@ export class GraphDataService {
 
   setSharedDataflow(Filtered_Dataflow){
     this.Dataflow = Filtered_Dataflow;
+  }
+
+  setSharedDimensions(Dimensions_Dataflow){
+    this.Dimensions = Dimensions_Dataflow;
+  }
+
+  getSharedDimensions(){
+    let newArray = []
+    for(let dim of this.Dimensions){
+      console.log(dim);
+      newArray.push(dim)
+    }
+    return newArray;
   }
 }

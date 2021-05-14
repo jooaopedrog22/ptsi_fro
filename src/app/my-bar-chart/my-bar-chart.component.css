@@ -1,0 +1,14 @@
+.Relative_Select{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.chart_container{
+    position: relative;
+}
+
+
+mat-form-field.mat-form-field {
+    font-size: 10px;
+}

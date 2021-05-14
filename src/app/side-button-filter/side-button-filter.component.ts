@@ -12,6 +12,7 @@ import { GraphDataService } from './../graph-data.service';
 export class SideButtonFilterComponent implements OnInit {
 
   public Filter_Message;
+  public Dimensions;
 
   constructor(private http:HttpClient, private _filtered_data:FilteredDataService, private _graph_data:GraphDataService) {
     this._filtered_data.messageChanges$.subscribe((msg: object)=>{
@@ -23,6 +24,7 @@ export class SideButtonFilterComponent implements OnInit {
     if(this.Filter_Message == undefined){
       console.log("Ainda nao esta definido o filtro");
     }else{
+      this.Dimensions = this._filtered_data.Dimensions;
       this.getFilteredDataflow(this.Filter_Message)
     }
     
@@ -31,9 +33,9 @@ export class SideButtonFilterComponent implements OnInit {
   getFilteredDataflow(FilterURL){
     let resp = this.http.get(`${environment.HostDomain}${FilterURL}`);
     resp.subscribe((data)=>{
-      console.log(data);
+      this._graph_data.setSharedDimensions(this.Dimensions);
       this._graph_data.changeMessage(data);
-      this._graph_data.setSharedDataflow(data);
+      this._graph_data.setSharedDataflow(data);      
     })
   }
 
