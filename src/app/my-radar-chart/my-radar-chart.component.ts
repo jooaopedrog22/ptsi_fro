@@ -125,26 +125,25 @@ export class MyRadarChartComponent implements OnInit {
       if(this.chart !== undefined){
         this.chart.destroy();
       }
-      console.log(this.chart);
+      //console.log(this.chart);
         this.chart = new Chart('canvas', {
           type: 'radar',
           data: {
             labels: uniqueVarX, 
             datasets: FinalArray,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)'
           },
           options: {
-            legend: {
-              display: true
-            },
             elements: {
               line: {
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderCapStyle: 'butt',
+                borderColor: 'rgb(255, 99, 132)',
                 borderWidth: 3
               }
             }
-          }
+          },
         })
-
+        console.log(this.chart);
     }
   }
 

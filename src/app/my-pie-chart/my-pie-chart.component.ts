@@ -139,6 +139,8 @@ export class MyPieChartComponent implements OnInit {
             },
           }
         })
+        console.log("chart");
+        console.log(this.chart);
 
     }
   }
